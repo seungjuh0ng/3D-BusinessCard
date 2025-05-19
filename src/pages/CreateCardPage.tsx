@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { useUser } from '../contexts/UserContext';
-import debounce from 'lodash/debounce';
+import React, { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { useUser } from "../contexts/UserContext";
+import debounce from "lodash/debounce";
 
 const CreateCardContainer = styled.div`
   display: flex;
@@ -48,7 +48,7 @@ const Button = styled.button`
   padding: 0.8rem;
   border: none;
   border-radius: 4px;
-  background: #007AFF;
+  background: #007aff;
   color: white;
   font-size: 1rem;
   cursor: pointer;
@@ -75,19 +75,37 @@ interface UsernameInputProps {
 }
 
 const UsernameInput = styled(Input)<UsernameInputProps>`
-  border: 2px solid ${props => props.available === undefined ? 'transparent' : props.available ? '#4CAF50' : '#f44336'};
+  border: 2px solid
+    ${(props) =>
+      props.available === undefined
+        ? "transparent"
+        : props.available
+        ? "#4CAF50"
+        : "#f44336"};
 `;
 
 const StatusMessage = styled.span<{ available?: boolean }>`
   font-size: 0.875rem;
-  color: ${props => props.available === undefined ? 'transparent' : props.available ? '#4CAF50' : '#f44336'};
+  color: ${(props) =>
+    props.available === undefined
+      ? "transparent"
+      : props.available
+      ? "#4CAF50"
+      : "#f44336"};
 `;
 
 const CreateCardPage: React.FC = () => {
-  const { user, createBusinessCard, checkUsernameAvailability, updateUsername } = useUser();
+  const {
+    user,
+    createBusinessCard,
+    checkUsernameAvailability,
+    updateUsername,
+  } = useUser();
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [isUsernameAvailable, setIsUsernameAvailable] = useState<boolean | undefined>(undefined);
+  const [username, setUsername] = useState("");
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState<
+    boolean | undefined
+  >(undefined);
   const [isChecking, setIsChecking] = useState(false);
 
   const checkUsername = useCallback(
@@ -101,7 +119,7 @@ const CreateCardPage: React.FC = () => {
         const available = await checkUsernameAvailability(value);
         setIsUsernameAvailable(available);
       } catch (error) {
-        console.error('Failed to check username:', error);
+        console.error("Failed to check username:", error);
         setIsUsernameAvailable(false);
       } finally {
         setIsChecking(false);
@@ -125,12 +143,11 @@ const CreateCardPage: React.FC = () => {
       await createBusinessCard();
       navigate(`/${username}`);
     } catch (error) {
-      console.error('Failed to create business card:', error);
+      console.error("Failed to create business card:", error);
     }
   };
-
   if (!user) {
-    navigate('/login');
+    navigate("/login");
     return null;
   }
 
@@ -149,12 +166,12 @@ const CreateCardPage: React.FC = () => {
           />
           <StatusMessage available={isUsernameAvailable}>
             {isChecking
-              ? '확인 중...'
+              ? "확인 중..."
               : isUsernameAvailable === undefined
-              ? ''
+              ? ""
               : isUsernameAvailable
-              ? '사용 가능한 사용자 이름입니다'
-              : '이미 사용 중인 사용자 이름입니다'}
+              ? "사용 가능한 사용자 이름입니다"
+              : "이미 사용 중인 사용자 이름입니다"}
           </StatusMessage>
         </InputGroup>
         <Input
@@ -163,35 +180,17 @@ const CreateCardPage: React.FC = () => {
           defaultValue={user.name}
           required
         />
-        <Input
-          type="text"
-          placeholder="직책"
-          required
-        />
-        <Input
-          type="text"
-          placeholder="회사"
-          required
-        />
+        <Input type="text" placeholder="직책" required />
+        <Input type="text" placeholder="회사" required />
         <Input
           type="email"
           placeholder="이메일"
           defaultValue={user.email}
           required
         />
-        <Input
-          type="tel"
-          placeholder="전화번호"
-          required
-        />
-        <TextArea
-          placeholder="자기소개"
-          required
-        />
-        <Button 
-          type="submit"
-          disabled={!isUsernameAvailable || isChecking}
-        >
+        <Input type="tel" placeholder="전화번호" required />
+        <TextArea placeholder="자기소개" required />
+        <Button type="submit" disabled={!isUsernameAvailable || isChecking}>
           명함 생성하기
         </Button>
       </CardForm>
@@ -199,4 +198,4 @@ const CreateCardPage: React.FC = () => {
   );
 };
 
-export default CreateCardPage; 
+export default CreateCardPage;

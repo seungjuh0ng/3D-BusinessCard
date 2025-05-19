@@ -44,7 +44,8 @@ const LoginPage: React.FC = () => {
     try {
       // TODO: 실제 구글 로그인 API 연동
       // 임시 로그인 처리
-      await login("google-user@example.com", "");
+      console.log(credentialResponse);
+      await login("google-user@example.com");
       navigate("/create-card");
     } catch (error) {
       console.error("Google login failed:", error);

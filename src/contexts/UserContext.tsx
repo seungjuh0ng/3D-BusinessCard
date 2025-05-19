@@ -11,7 +11,7 @@ interface User {
 interface UserContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string) => Promise<void>;
   logout: () => void;
   createBusinessCard: () => Promise<void>;
   checkUsernameAvailability: (username: string) => Promise<boolean>;
@@ -25,7 +25,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (email: string) => {
     // TODO: 실제 로그인 API 연동
     // 임시 로그인 로직
     setUser({
