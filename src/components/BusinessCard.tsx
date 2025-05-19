@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text, Float, SpotLight, Environment } from "@react-three/drei";
 import * as THREE from "three";
@@ -10,6 +10,7 @@ const CARD_DEPTH = 0.02;
 function BusinessCard() {
   const cardRef = useRef<THREE.Group>(null);
   const spotLightRef = useRef<THREE.SpotLight>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   // Add smooth rotation animation
   useFrame((_, delta) => {
@@ -31,6 +32,10 @@ function BusinessCard() {
     skills: ["Stack1", "Stack2", "Stack3"],
     contact: "email@example.com",
     github: "github.com/username",
+  };
+
+  const handleGithubClick = () => {
+    window.open(`https://${backContent.github}`, "_blank");
   };
 
   return (
@@ -136,9 +141,12 @@ function BusinessCard() {
             <Text
               position={[0, -0.3, 0]}
               fontSize={0.1}
-              color="#666666"
+              color={isHovered ? "#000000" : "#666666"}
               anchorX="center"
               anchorY="middle"
+              onClick={handleGithubClick}
+              onPointerOver={() => setIsHovered(true)}
+              onPointerOut={() => setIsHovered(false)}
             >
               {backContent.github}
             </Text>
